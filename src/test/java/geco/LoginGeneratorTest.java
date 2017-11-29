@@ -9,16 +9,17 @@ import static org.junit.Assert.assertThat;
 public class LoginGeneratorTest {
 
     private LoginService loginService;
+    private LoginGenerator loginGenerator;
 
     @Before
     public void setUp() throws Exception {
         loginService = new LoginService(new String[]{"JROL", "BPER", "CGUR",
                 "JDUP", "JRAL", "JRAL1"});
+        loginGenerator = new LoginGenerator(loginService);
     }
 
     @Test
     public void generateLoginPaulDurand() throws Exception {
-        LoginGenerator loginGenerator = new LoginGenerator(loginService);
         String pdur = loginGenerator.generateLoginForNomAndPrenom("Durand",
                 "Paul");
 
@@ -28,7 +29,6 @@ public class LoginGeneratorTest {
 
     @Test
     public void generateLoginJohnRalling() throws Exception {
-        LoginGenerator loginGenerator = new LoginGenerator(loginService);
         String jral = loginGenerator.generateLoginForNomAndPrenom("Ralling",
                 "John");
 
@@ -38,7 +38,6 @@ public class LoginGeneratorTest {
 
     @Test
     public void generateLoginJeanRolling() throws Exception {
-        LoginGenerator loginGenerator = new LoginGenerator(loginService);
         String jrol = loginGenerator.generateLoginForNomAndPrenom("Rolling",
                 "Jean");
 
@@ -48,12 +47,20 @@ public class LoginGeneratorTest {
 
     @Test
     public void generateLoginPaulDurandAccent() throws Exception {
-        LoginGenerator loginGenerator = new LoginGenerator(loginService);
         String pdur = loginGenerator.generateLoginForNomAndPrenom("Dùrand",
                 "Paul");
 
         assertThat(pdur, is("PDUR"));
         assertThat(loginService.loginExists("PDUR"), is(true));
+    }
+
+    @Test
+    public void generateLoginPaulDu() throws Exception {
+        String pdu = loginGenerator.generateLoginForNomAndPrenom("Du",
+                "Paul");
+
+        assertThat(pdu, is("PDU"));
+        assertThat(loginService.loginExists("PDU"), is(true));
     }
 
 }
